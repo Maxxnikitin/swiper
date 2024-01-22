@@ -31,6 +31,13 @@ type SwiperProps = Omit<
     wrapperTag?: string;
 
     /**
+     * Swiper container className
+     *
+     * @default ''
+     */
+    containerClassName?: string;
+
+    /**
      * Get Swiper instance
      */
     onSwiper?: (swiper: SwiperClass) => void;

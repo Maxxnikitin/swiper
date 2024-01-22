@@ -22,6 +22,7 @@ const Swiper = forwardRef(
   (
     {
       className,
+      containerClassName,
       tag: Tag = 'div',
       wrapperTag: WrapperTag = 'div',
       children,
@@ -192,32 +193,36 @@ const Swiper = forwardRef(
     }
 
     return (
-      <Tag
-        ref={swiperElRef}
-        className={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
-        {...restProps}
-      >
-        <SwiperContext.Provider value={swiperRef.current}>
-          {slots['container-start']}
-          <WrapperTag className={wrapperClass(swiperParams.wrapperClass)}>
-            {slots['wrapper-start']}
-            {renderSlides()}
-            {slots['wrapper-end']}
-          </WrapperTag>
-          {needsNavigation(swiperParams) && (
-            <>
-              <div ref={prevElRef} className="swiper-button-prev" />
-              <div ref={nextElRef} className="swiper-button-next" />
-            </>
+      <Tag className={uniqueClasses(`main-wrapper ${className ? ` ${className}` : ''}`)}>
+        <Tag
+          ref={swiperElRef}
+          className={uniqueClasses(
+            `${containerClasses}${containerClassName ? ` ${containerClassName}` : ''}`,
           )}
-          {needsScrollbar(swiperParams) && (
-            <div ref={scrollbarElRef} className="swiper-scrollbar" />
-          )}
-          {needsPagination(swiperParams) && (
-            <div ref={paginationElRef} className="swiper-pagination" />
-          )}
-          {slots['container-end']}
-        </SwiperContext.Provider>
+          {...restProps}
+        >
+          <SwiperContext.Provider value={swiperRef.current}>
+            {slots['container-start']}
+            <WrapperTag className={wrapperClass(swiperParams.wrapperClass)}>
+              {slots['wrapper-start']}
+              {renderSlides()}
+              {slots['wrapper-end']}
+            </WrapperTag>
+            {needsScrollbar(swiperParams) && (
+              <div ref={scrollbarElRef} className="swiper-scrollbar" />
+            )}
+            {needsPagination(swiperParams) && (
+              <div ref={paginationElRef} className="swiper-pagination" />
+            )}
+            {slots['container-end']}
+          </SwiperContext.Provider>
+        </Tag>
+        {needsNavigation(swiperParams) && (
+          <>
+            <div ref={prevElRef} className="swiper-button-prev" />
+            <div ref={nextElRef} className="swiper-button-next" />
+          </>
+        )}
       </Tag>
     );
   },
